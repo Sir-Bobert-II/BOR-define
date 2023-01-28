@@ -3,6 +3,8 @@ use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use serde_json::Value;
 use structstruck::strike;
+use serenity::{builder::CreateApplicationCommand, model::prelude::command::CommandOptionType};
+
 
 
 type Words = Vec<Word>;
@@ -38,7 +40,7 @@ strike! {
     }
 }
 
-pub async fn define_word(word: &str) -> String
+pub async fn run(word: &str) -> String
 {
     // Replace spaces with %20 for the url
     let word_ = word.to_lowercase().trim().replace(' ', "%20").to_string();
@@ -77,4 +79,18 @@ pub async fn define_word(word: &str) -> String
     else {
         format!("Couldn't define '{word}'")
     }
+}
+
+pub fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
+    command
+        .name("define")
+        .description("Define an english word")
+        .dm_permission(true)
+        .create_option(|option| {
+            option
+                .name("word")
+                .description("The word to define")
+                .kind(CommandOptionType::String)
+                .required(true)
+        })
 }
