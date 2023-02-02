@@ -2,43 +2,55 @@ use log::info;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use serde_json::Value;
-use structstruck::strike;
-use serenity::{builder::CreateApplicationCommand, model::prelude::command::CommandOptionType};
-
 
 
 type Words = Vec<Word>;
-
-strike! {
-    #[strikethrough[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]]
-    #[strikethrough[serde(rename_all = "camelCase")]]
-    struct Word {
-        word: String,
-        phonetics: Vec<pub struct Phonetic {
-             audio: String,
-            source_url: Option<String>,
-             license: Option<pub struct License {
-                name: String,
-                url: String,
-            }>,
-            text: Option<String>,
-        }>,
-        meanings: Vec<pub struct Meaning {
-            part_of_speech: String,
-            definitions: Vec<pub struct Definition {
-                definition: String,
-                synonyms: Vec<Value>,
-                antonyms: Vec<Value>,
-                example: Option<String>,
-            }
-            >,
-            synonyms: Vec<String>,
-            antonyms: Vec<String>,
-        }>,
-        license: License,
-        source_urls: Vec<String>,
-    }
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct License {
+    name: String,
+    url: String,
 }
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Phonetic {
+    audio: String,
+    source_url: Option<String>,
+    license: Option<License>,
+    text: Option<String>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Meaning {
+    part_of_speech: String,
+    definitions: Vec<Definition>
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Definition {
+    definition: String,
+    synonyms: Vec<Value>,
+    antonyms: Vec<Value>,
+    example: Option<String>,
+}
+
+
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct Word {
+    word: String,
+    phonetics: Vec<Phonetic>,
+    meanings: Vec<Meaning>,
+    synonyms: Vec<String>,
+    antonyms: Vec<String>,
+    license: License,
+    source_urls: Vec<String>,
+}
+
 
 pub async fn run(word: &str) -> String
 {
@@ -79,18 +91,4 @@ pub async fn run(word: &str) -> String
     else {
         format!("Couldn't define '{word}'")
     }
-}
-
-pub fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
-    command
-        .name("define")
-        .description("Define an english word")
-        .dm_permission(true)
-        .create_option(|option| {
-            option
-                .name("word")
-                .description("The word to define")
-                .kind(CommandOptionType::String)
-                .required(true)
-        })
 }
