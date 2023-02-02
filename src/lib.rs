@@ -2,7 +2,7 @@ use log::info;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use serde_json::Value;
-
+use serenity::{builder::CreateApplicationCommand, model::prelude::command::CommandOptionType};
 
 type Words = Vec<Word>;
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -91,4 +91,18 @@ pub async fn run(word: &str) -> String
     else {
         format!("Couldn't define '{word}'")
     }
+}
+
+pub fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
+    command
+        .name("define")
+        .description("Define an english word")
+        .dm_permission(true)
+        .create_option(|option| {
+            option
+                .name("word")
+                .description("The word to define")
+                .kind(CommandOptionType::String)
+                .required(true)
+        })
 }
