@@ -1055,9 +1055,9 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
 name = "structstruck"
-version = "0.4.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7498d56fd36301558760f396b01e904e2496e369fb099ea4c7abe758dfc22ede"
+checksum = "0c63cde54c090c74962220a7555244829702e02f519aba8d83aa47cfc8f29ef2"
 dependencies = [
  "heck",
  "proc-macro2",
@@ -1358,9 +1358,9 @@ checksum = "accd4ea62f7bb7a82fe23066fb0957d48ef677f6eeb8215f372f52e48bb32426"
 
 [[package]]
 name = "venial"
-version = "0.5.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "61584a325b16f97b5b25fcc852eb9550843a251057a5e3e5992d2376f3df4bb2"
+checksum = "f3d723d4b0ebf523971bc63776095798272df2873910f16d53bb680aa2f4d609"
 dependencies = [
  "proc-macro2",
  "quote",
